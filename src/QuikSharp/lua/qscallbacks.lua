@@ -36,7 +36,87 @@ function OnError(message)
     sendCallback(msg)
 end
 
+--- Функция вызывается терминалом QUIK при получении изменений текущей позиции по счету.
+--- *только для брокеров https://forum.quik.ru/messages/forum10/message4434/topic506/#message4434
+function OnAccountBalance(acc_bal)
+    if is_connected then
+        local msg = {}
+	    msg.t = timemsec()
+	    msg.cmd = "OnAccountBalance"
+	    msg.data = acc_bal
+	    sendCallback(msg)
+    end
+end
 
+--- Функция вызывается терминалом QUIK при изменении денежной позиции по счету.
+--- *предположительно как и OnAccountBalance
+function OnAccountPosition(acc_pos)
+    if is_connected then
+        local msg = {}
+        msg.t = timemsec()
+        msg.cmd = "OnAccountPosition"
+        msg.data = acc_bal
+        sendCallback(msg)
+    end
+end
+
+--- Функция вызывается терминалом QUIK при при изменении текущих параметров.
+function OnParam(class_code, sec_code)
+    if is_connected then
+        local msg = {}
+        msg.t = timemsec()
+        msg.cmd = "OnParam"
+        dat = {}
+        dat.class_code = class_code
+        dat.sec_code = sec_code
+        msg.data = dat
+        sendCallback(msg)
+    end
+end
+
+--- Функция вызывается терминалом QUIK при установлении связи с сервером QUIK.
+function OnConnected()
+    if is_connected then
+        local msg = {}
+        msg.t = timemsec()
+        msg.cmd = "OnConnected"
+        msg.data = ""
+        sendCallback(msg)
+    end
+end
+
+--- Функция вызывается терминалом QUIK при отключении от сервера QUIK.
+function OnDisconnected()
+    if is_connected then
+        local msg = {}
+        msg.t = timemsec()
+        msg.cmd = "OnDisconnected"
+        msg.data = ""
+        sendCallback(msg)
+    end
+end
+
+--- Функция вызывается терминалом QUIK при получении изменений лимита по бумагам.
+function OnDepoLimit (depo_limit)
+    if is_connected then
+        local msg = {}
+        msg.t = timemsec()
+        msg.cmd = "OnDepoLimit"
+        msg.data = depo_limit
+        sendCallback(msg)
+    end
+end
+
+--- Функция вызывается терминалом QUIK при удалении клиентского лимита по бумагам.
+function OnDepoLimitDelete (depo_limit_del)
+    if is_connected then
+        local msg = {}
+        msg.t = timemsec()
+        msg.cmd = "OnDepoLimitDelete"
+        msg.data = depo_limit_del
+        sendCallback(msg)
+    end
+end
 
 --- Функция вызывается терминалом QUIK при получении обезличенной сделки.
 function OnAllTrade(alltrade)
@@ -76,6 +156,7 @@ end
 
 --- Функция вызывается терминалом QUIK при получении сделки.
 function OnOrder(order)
+    -- TODO: почему не проверяем is_connected?
     local msg = {}
     msg.t = timemsec()
     msg.id = nil -- значение в order.trans_id
@@ -86,6 +167,7 @@ end
 
 --- Функция вызывается терминалом QUIK при получении изменения стакана котировок.
 function OnQuote(class_code, sec_code)
+    -- TODO: почему не проверяем is_connected?
     if true then -- is_connected
         local msg = {}
         msg.cmd = "OnQuote"
@@ -123,6 +205,7 @@ end
 
 --- Функция вызывается терминалом QUIK при получении сделки.
 function OnTrade(trade)
+    -- TODO: почему не проверяем is_connected?
     local msg = {}
     msg.t = timemsec()
     msg.id = nil -- значение в OnTrade.trans_id
@@ -133,6 +216,7 @@ end
 
 --- Функция вызывается терминалом QUIK при получении ответа на транзакцию пользователя.
 function OnTransReply(trans_reply)
+    -- TODO: почему не проверяем is_connected?
     local msg = {}
     msg.t = timemsec()
     msg.id = nil -- значение в trans_reply.trans_id
@@ -141,7 +225,9 @@ function OnTransReply(trans_reply)
     sendCallback(msg)
 end
 
+--- Функция вызывается терминалом QUIK при получении новой стоп-заявки или при изменении параметров существующей стоп-заявки..
 function OnStopOrder(stop_order)
+    -- TODO: почему не проверяем is_connected?
 	local msg = {}
     msg.t = timemsec()
     msg.data = stop_order

@@ -78,6 +78,7 @@ end
 
 -- log files
 os.execute("mkdir " .. "logs")
+-- TODO: add check for logs folder exists
 logfile = io.open (script_path.. "/logs/QuikSharp.log", "a")
 missed_values_file = nil
 missed_values_file_name = nil

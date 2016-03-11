@@ -37,6 +37,26 @@ namespace QuikSharp {
     public delegate void AllTradeHandler(AllTrade allTrade);
 
     /// <summary>
+    /// Обработчик события OnAccountBalance
+    /// </summary>
+    /// <param name="accBalance"></param>
+    public delegate void AccountBalanceHandler(AccountBalance accBalance);
+
+    /// <summary>
+    /// Обработчик события OnAccountPosiotion
+    /// </summary>
+    /// <param name="accBalance"></param>
+    public delegate void AccountPositionHandler(AccountPosition accBalance);
+
+    /// <summary>
+    /// Обработчик события OnParam
+    /// </summary>
+    /// <param name="par">lua table with class_code, sec_code</param>
+    public delegate void ParamHandler(Param par);
+
+    public delegate void DepoLimitHendler(DepoLimitEx dl);
+
+    /// <summary>
     /// 
     /// </summary>
     /// <param name="transReply"></param>
@@ -58,8 +78,16 @@ namespace QuikSharp {
         public QuikService QuikService { get; private set; }
 
 
-        public event EventHandler OnAccountBalance;
-        public event EventHandler OnAccountPosition;
+        public event AccountBalanceHandler OnAccountBalance;
+        internal void OnAccountBalanceCall(AccountBalance accBal) {
+            if (OnAccountBalance != null) OnAccountBalance(accBal);
+        }
+
+
+        public event AccountPositionHandler OnAccountPosition;
+        internal void OnAccountPositionCall(AccountPosition accPos) {
+            if (OnAccountPosition != null) OnAccountPosition(accPos);
+        }
 
 
         public event AllTradeHandler OnAllTrade;
@@ -77,11 +105,22 @@ namespace QuikSharp {
 
 
         public event VoidHandler OnConnected;
-        internal void OnConnectedCall() { if (OnConnected != null) OnConnected(); }
+        internal void OnConnectedCall() { 
+            if (OnConnected != null) OnConnected(); 
+        }
 
 
-        public event EventHandler OnDepoLimit;
-        public event EventHandler OnDepoLimitDelete;
+        public event DepoLimitHendler OnDepoLimit;
+        internal void OnDepoLimitCall(DepoLimitEx dl)
+        {
+            if (OnDepoLimit != null) OnDepoLimit(dl);
+        }
+
+        public event DepoLimitHendler OnDepoLimitDelete;
+        internal void OnDepoLimitDeleteCall(DepoLimitEx dld)
+        {
+            if (OnDepoLimitDelete != null) OnDepoLimitDelete(dld);
+        }
 
 
         public event VoidHandler OnDisconnected;
@@ -138,7 +177,10 @@ namespace QuikSharp {
         }
 
 
-        public event EventHandler OnParam;
+        public event ParamHandler OnParam;
+        internal void OnParamCall(Param par){
+            if (OnParam != null) OnParam(par);
+        }
 
         public event QuoteHandler OnQuote;
         internal void OnQuoteCall(OrderBook orderBook) { if (OnQuote != null) OnQuote(orderBook); }

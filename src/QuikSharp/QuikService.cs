@@ -340,8 +340,14 @@ namespace QuikSharp {
             if (parsed) {
                 switch (eventName) {
                     case EventNames.OnAccountBalance:
+                        Trace.Assert(message is Message<AccountBalance>);
+                        var accBal = ((Message<AccountBalance>)message).Data;
+                        Events.OnAccountBalanceCall(accBal);
                         break;
                     case EventNames.OnAccountPosition:
+                        Trace.Assert(message is Message<AccountPosition>);
+                        var accPos = ((Message<AccountPosition>)message).Data;
+                        Events.OnAccountPositionCall(accPos);
                         break;
                     case EventNames.OnAllTrade:
                         Trace.Assert(message is Message<AllTrade>);
@@ -362,8 +368,14 @@ namespace QuikSharp {
                         Events.OnConnectedCall();
                         break;
                     case EventNames.OnDepoLimit:
+                        Trace.Assert(message is Message<DepoLimitEx>);
+                        var dl = ((Message<DepoLimitEx>)message).Data;
+                        Events.OnDepoLimitCall(dl);
                         break;
                     case EventNames.OnDepoLimitDelete:
+                        Trace.Assert(message is Message<DepoLimitEx>);
+                        var dld = ((Message<DepoLimitEx>)message).Data;
+                        Events.OnDepoLimitDeleteCall(dld);
                         break;
                     case EventNames.OnDisconnected:
                         Trace.Assert(message is Message<string>);
@@ -399,6 +411,9 @@ namespace QuikSharp {
                         break;
 
                     case EventNames.OnParam:
+                        Trace.Assert(message is Message<Param>);
+                        var data = ((Message<Param>)message).Data;
+                        Events.OnParamCall(data);
                         break;
 
                     case EventNames.OnQuote:

@@ -224,9 +224,9 @@ namespace QuikSharp {
                 if (parsed) {
                     switch (eventName) {
                         case EventNames.OnAccountBalance:
-                            break;
+                            return new Message<AccountBalance> { Data = new AccountBalance() };
                         case EventNames.OnAccountPosition:
-                            break;
+                            return new Message<AccountPosition> { Data = new AccountPosition() };
 
                         case EventNames.OnAllTrade:
                             return new Message<AllTrade> { Data = new AllTrade() };
@@ -240,9 +240,8 @@ namespace QuikSharp {
                             return new Message<string>();
 
                         case EventNames.OnDepoLimit:
-                            break;
                         case EventNames.OnDepoLimitDelete:
-                            break;
+                            return new Message<DepoLimitEx> { Data = new DepoLimitEx() };
 
                         case EventNames.OnFirm:
                             break;
@@ -267,8 +266,7 @@ namespace QuikSharp {
                             };
 
                         case EventNames.OnParam:
-                            break;
-
+                            return new Message<Param> { Data = new Param() };
                         case EventNames.OnQuote:
                             return new Message<OrderBook> {
                                 Data = new OrderBook()
